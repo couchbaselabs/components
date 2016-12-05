@@ -23,6 +23,7 @@
 		<module>components-api-full-example</module>
 		<module>components-jdbc</module>
 		<module>components-filedelimited</module>
+		<module>components-couchbase</module>
 		<module>services</module>
 		<module>examples</module>
 		<module>components</module>
