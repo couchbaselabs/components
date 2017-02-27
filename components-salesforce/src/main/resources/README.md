@@ -20,7 +20,7 @@ The Jar files are added to a Nexus repository for consumption by the component u
 this command:
 
 ```
-mvn deploy:deploy-file -Dfile=partner_34.jar -DgroupId=org.talend.components.salesforce -DartifactId=partner -Dversion=34.0.0 -Dpackaging=jar -Durl=http://newbuild.talend.com:8081/nexus/content/repositories/releases -DrepositoryId=talend_nexus_deployment
+mvn deploy:deploy-file -Dfile=partner_34.jar -DgroupId=org.talend.components.salesforce -DartifactId=partner -Dversion=34.0.0 -Dpackaging=jar -Durl=https://artifacts-zl.talend.com/nexus/content/repositories/releases -DrepositoryId=talend_nexus_deployment
 ```
 
 Make sure the pom.xml for components-salesforce is updated with the correct version number based on the new version:

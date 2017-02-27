@@ -7,7 +7,7 @@
 	<version>0.16.0</version>
 	<name>Assembly for building P2 updatesite for components</name>
     <properties>
-        <talend_snapshots_deployment>http://newbuild.talend.com:8081/nexus/content/repositories/TalendOpenSourceSnapshot/</talend_snapshots_deployment>
+        <talend_snapshots_deployment>https://artifacts-oss.talend.com/nexus/content/repositories/TalendOpenSourceSnapshot/</talend_snapshots_deployment>
     </properties>
 	
     <distributionManagement>
@@ -17,7 +17,7 @@
         </snapshotRepository>
         <repository>
             <id>talend_nexus_deployment</id>
-            <url>http://newbuild.talend.com:8081/nexus/content/repositories/TalendOpenSourceRelease/</url>
+            <url>https://artifacts-oss.talend.com/nexus/content/repositories/TalendOpenSourceRelease/</url>
         </repository>
     </distributionManagement>	
 	
