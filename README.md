@@ -20,7 +20,7 @@ from the master version of the repository:
 
 Just checkout repository and run maven packaging task:
 
-    $ git clone git://github.com/couchbase/couchbase-components.git
+    $ git clone git://github.com/couchbaselabs/talend-components.git
     $ cd couchbase-components
     $ git checkout rel-0.16
     $ mvn clean package
@@ -29,22 +29,22 @@ This give you a bundle file in `target/components-couchbase-0.1.0-SNAPSHOT-bundl
 
 ## Registering components in Talend Studio
 
-Detailed steps of registering described on Talend Wiki:
+Detailed steps of registering components are described on the Talend Wiki:
 https://github.com/Talend/components/wiki/8.-Testing-the-component-in-Talend-Studio
 
-Here we should brief version. Lets assume that Studio has been extracted like this:
+Here is a brief summary. Let's assume that Studio has been extracted like this:
 
     $ cd $HOME/tmp
     ... download distribution archive ...
     $ unzip TOS_DI-20161216_1026-V6.3.1.zip
     $ STUDIO_ROOT=$HOME/tmp/TOS_DI-20161216_1026-V6.3.1
 
-Now copy bundle into `$STUDIO_ROOT/plugins`
+Now copy the bundle into `$STUDIO_ROOT/plugins`
 
     $ cp [COUCHBASE_COMPONENTS]/target/components-couchbase-0.1.0-SNAPSHOT-bundle.jar \
          $STUDIO_ROOT/plugins
 
-The last step is to edit `$STUDIO_ROOT/configuration/config.ini` as it described in
+Finally, edit `$STUDIO_ROOT/configuration/config.ini` as it described in
 wiki page above. The diff should look like this:
 
 ```diff
