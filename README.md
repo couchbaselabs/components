@@ -8,14 +8,6 @@ Branch `rel-0.16` is compatible with Talend Open Studio 6.3.1 (API version 0.16.
 
 Download Talend Open Studio 6.3.1: https://www.talend.com/download/talend-open-studio/
 
-**Note**: This release depends on `java-dcp-client-0.9.0-SNAPSHOT`, which should be built
-from the master version of the repository:
-
-    $ git clone git://github.com/couchbase/java-dcp-client.git
-    $ cd java-dcp-client
-    $ mvn clean install
-
-
 ## Build
 
 Just checkout repository and run maven packaging task:

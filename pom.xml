@@ -26,7 +26,7 @@
     <properties>
         <couchbase-core.version>1.4.2</couchbase-core.version>
         <couchbase-client.version>2.4.2</couchbase-client.version>
-        <couchbase-dcp.version>0.9.0-SNAPSHOT</couchbase-dcp.version>
+        <couchbase-dcp.version>0.9.0</couchbase-dcp.version>
         <rx.version>1.2.3</rx.version>
     </properties>
     <dependencies>
