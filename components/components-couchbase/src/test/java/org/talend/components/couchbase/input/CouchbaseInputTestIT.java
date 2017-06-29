@@ -30,7 +30,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.talend.components.api.component.runtime.Reader;
+import org.talend.components.couchbase.RequiresCouchbaseServer;
 import org.talend.components.couchbase.EventSchemaField;
 import org.talend.components.couchbase.runtime.CouchbaseSource;
 import org.talend.components.couchbase.runtime.CouchbaseStreamingConnection;
@@ -41,6 +43,7 @@ import com.couchbase.client.java.PersistTo;
 import com.couchbase.client.java.document.JsonDocument;
 import com.couchbase.client.java.document.json.JsonObject;
 
+@Category({RequiresCouchbaseServer.class})
 public class CouchbaseInputTestIT {
     private static String bootstrapNodes;
     private static String bucketName;
@@ -95,6 +98,8 @@ public class CouchbaseInputTestIT {
         assertTrue(bucket.bucketManager().flush());
         JsonDocument document = JsonDocument.create("foo", JsonObject.create().put("bar", 42));
         bucket.upsert(document, PersistTo.MASTER);
+        bucket.close();
+
         cluster.disconnect();
     }
 
