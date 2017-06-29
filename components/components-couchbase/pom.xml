@@ -190,7 +190,7 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <configuration>
                     <systemPropertyVariables>
-                        <couchbase.host>${docker.host.address}:8091/</couchbase.host>
+                        <couchbase.host>${docker.host.address}:${couchbase.admin.port}/</couchbase.host>
                         <couchbase.bootstrapNodes>${docker.host.address}</couchbase.bootstrapNodes>
                         <couchbase.bucketName>${couchbase.bucketName}</couchbase.bucketName>
                         <couchbase.password>${couchbase.password}</couchbase.password>
@@ -215,11 +215,11 @@
                                     <name>${couchbase.docker.image.name}</name>
                                     <run>
                                         <ports>
-                                            <port>18091:8091</port>
-                                            <port>18092:8092</port>
-                                            <port>18092:8093</port>
-                                            <port>18094:8094</port>
-                                            <port>11210:11210</port>
+                                            <port>couchbase.admin.port:8091</port>
+                                            <port>couchbase.api.port:8092</port>
+                                            <port>couchbase.bucket.port:11210</port>
+                                            <port>couchbase.admin.secure.port:18091</port>
+                                            <port>couchbase.api.secure.port:18092</port>
                                         </ports>
                                         <wait>
                                             <time>10000</time>
