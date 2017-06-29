@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import org.apache.avro.generic.IndexedRecord;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -44,6 +45,7 @@ public class CouchbaseInputTestIT {
     private static String bootstrapNodes;
     private static String bucketName;
     private static String password;
+
     private CouchbaseSource source;
 
     @BeforeClass
@@ -54,9 +56,23 @@ public class CouchbaseInputTestIT {
             props.load(is);
         }
 
-        bootstrapNodes = System.getProperty("couchbase.bootstrapNodes", props.getProperty("bootstrapNodes"));
-        bucketName = System.getProperty("couchbase.bucketName", props.getProperty("bucket"));
-        password = System.getProperty("couchbase.password", props.getProperty("password"));
+        bootstrapNodes = System.getProperty("couchbase.bootstrapNodes");
+        if (StringUtils.isEmpty(bootstrapNodes)) {
+            // Bootstrap nodes not specified, get from properties
+            bootstrapNodes = props.getProperty("bootstrapNodes");
+        }
+
+        bucketName = System.getProperty("couchbase.bucketName");
+        if (StringUtils.isEmpty(bucketName)) {
+            // Bucket name not specified, get from properties
+            bucketName = props.getProperty("bucket");
+        }
+
+        password = System.getProperty("couchbase.password");
+        if (password == null) { // Password can be empty, so check for null only
+            // Password not specified, get from properties
+            password = props.getProperty("password");
+        }
     }
 
     @After
