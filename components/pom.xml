@@ -31,6 +31,7 @@
         <module>components-marketo</module>
         <module>components-netsuite</module>
         <module>components-hadoopcluster</module>
+        <module>components-couchbase</module>
 
         <!-- Slow-building components are built last. -->
         <module>components-salesforce</module>
