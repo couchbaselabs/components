@@ -16,7 +16,11 @@
 
 package org.talend.components.couchbase;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.talend.components.api.component.AbstractComponentDefinition;
+import org.talend.components.api.component.SupportedProduct;
 import org.talend.components.api.component.runtime.DependenciesReader;
 import org.talend.components.api.component.runtime.ExecutionEngine;
 import org.talend.components.api.component.runtime.SimpleRuntimeInfo;
@@ -38,5 +42,10 @@ public abstract class CouchbaseDefinition extends AbstractComponentDefinition {
                 DependenciesReader.computeDependenciesFilePath("org.talend.components", "components-couchbase"),
                 runtimeClassName);
 
+    }
+
+    @Override
+    public List<String> getSupportedProducts() {
+        return Arrays.asList(SupportedProduct.ALL);
     }
 }
