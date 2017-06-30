@@ -30,7 +30,7 @@ import org.talend.daikon.properties.property.Property;
 import org.talend.daikon.runtime.RuntimeInfo;
 
 public class CouchbaseOutputDefinition extends CouchbaseDefinition {
-    public static final String COMPONENT_NAME = "CouchbaseOutput"; //$NON-NLS-1$
+    public static final String COMPONENT_NAME = "tCouchbaseOutput"; //$NON-NLS-1$
     private static final Logger LOG = LoggerFactory.getLogger(CouchbaseOutputDefinition.class);
 
     public CouchbaseOutputDefinition() {
