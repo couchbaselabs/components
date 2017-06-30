@@ -33,6 +33,7 @@ import static org.talend.daikon.properties.property.PropertyFactory.newProperty;
 import static org.talend.daikon.properties.property.PropertyFactory.newString;
 
 public abstract class CouchbaseProperties extends FixedConnectorsComponentProperties {
+
     private static Logger LOG = LoggerFactory.getLogger(CouchbaseProperties.class);
 
     public final Property<String> bucket = newString("bucket");
@@ -54,9 +55,9 @@ public abstract class CouchbaseProperties extends FixedConnectorsComponentProper
     public void setupProperties() {
         super.setupProperties();
 
+        bootstrapNodes.setValue("localhost");
         bucket.setValue("default");
         password.setValue("");
-        bootstrapNodes.setValue("localhost");
     }
 
     @Override

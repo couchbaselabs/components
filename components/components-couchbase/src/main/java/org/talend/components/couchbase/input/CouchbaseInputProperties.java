@@ -16,6 +16,12 @@
 
 package org.talend.components.couchbase.input;
 
+import static org.talend.daikon.avro.SchemaConstants.TALEND_IS_LOCKED;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Set;
+
 import org.apache.avro.Schema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,13 +30,8 @@ import org.talend.components.couchbase.CouchbaseProperties;
 import org.talend.components.couchbase.EventSchemaField;
 import org.talend.daikon.avro.AvroUtils;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Set;
-
-import static org.talend.daikon.avro.SchemaConstants.TALEND_IS_LOCKED;
-
 public class CouchbaseInputProperties extends CouchbaseProperties {
+
     private static Logger LOG = LoggerFactory.getLogger(CouchbaseInputProperties.class);
 
     public CouchbaseInputProperties(String name) {
@@ -41,6 +42,18 @@ public class CouchbaseInputProperties extends CouchbaseProperties {
     public void setupProperties() {
         super.setupProperties();
 
+        schema.schema.setValue(getEventSchema());
+    }
+
+    @Override
+    protected Set<PropertyPathConnector> getAllSchemaPropertiesConnectors(boolean isOutputConnection) {
+        if (isOutputConnection) {
+            return Collections.singleton(MAIN_CONNECTOR);
+        }
+        return Collections.emptySet();
+    }
+
+    public static Schema getEventSchema() {
         Schema.Field[] fields = new Schema.Field[10];
         Schema.Field field;
 
@@ -57,19 +70,11 @@ public class CouchbaseInputProperties extends CouchbaseProperties {
         field.addProp(TALEND_IS_LOCKED, "false");
         fields[EventSchemaField.CONTENT_IDX] = field;
 
-        Schema messageSchema = Schema.createRecord("DcpMessage", "Couchbase DCP message", "com.couchbase",
+        Schema schema = Schema.createRecord("DcpMessage", "Couchbase DCP message", "com.couchbase",
                 false, Arrays.asList(fields));
-        messageSchema.addProp(TALEND_IS_LOCKED, "true");
+        schema.addProp(TALEND_IS_LOCKED, "true");
 
-        schema.schema.setValue(messageSchema);
-    }
-
-    @Override
-    protected Set<PropertyPathConnector> getAllSchemaPropertiesConnectors(boolean isOutputConnection) {
-        if (isOutputConnection) {
-            return Collections.singleton(MAIN_CONNECTOR);
-        }
-        return Collections.emptySet();
+        return schema;
     }
 
 }

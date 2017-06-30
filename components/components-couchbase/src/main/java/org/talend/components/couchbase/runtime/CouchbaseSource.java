@@ -24,10 +24,12 @@ import org.talend.components.api.properties.ComponentProperties;
 import org.talend.components.couchbase.ComponentConstants;
 import org.talend.components.couchbase.input.CouchbaseInputProperties;
 import org.talend.daikon.NamedThing;
+import org.talend.daikon.SimpleNamedThing;
 import org.talend.daikon.properties.ValidationResult;
 import org.talend.daikon.properties.ValidationResultMutable;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 public class CouchbaseSource implements Source {
@@ -74,12 +76,12 @@ public class CouchbaseSource implements Source {
 
     @Override
     public List<NamedThing> getSchemaNames(RuntimeContainer container) throws IOException {
-        return null;
+        return Collections.singletonList((NamedThing) new SimpleNamedThing("MAIN", "MAIN"));
     }
 
     @Override
     public Schema getEndpointSchema(RuntimeContainer container, String schemaName) throws IOException {
-        return null;
+        return CouchbaseInputProperties.getEventSchema();
     }
 
     @Override
