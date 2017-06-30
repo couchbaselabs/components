@@ -16,18 +16,15 @@
 
 package org.talend.components.couchbase.runtime;
 
+import java.io.IOException;
+
 import org.apache.avro.Schema;
 import org.apache.avro.generic.IndexedRecord;
-import org.apache.avro.io.EncoderFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.talend.components.api.component.runtime.Result;
 import org.talend.components.api.component.runtime.WriteOperation;
 import org.talend.components.api.component.runtime.Writer;
-import org.talend.daikon.avro.AvroRegistry;
-import org.talend.daikon.avro.converter.IndexedRecordConverter;
-
-import java.io.IOException;
 
 public class CouchbaseWriter implements Writer<Result> {
     private static final Logger LOG = LoggerFactory.getLogger(CouchbaseWriter.class);
@@ -38,8 +35,6 @@ public class CouchbaseWriter implements Writer<Result> {
     private volatile boolean opened;
     private Result result;
     private CouchbaseConnection connection;
-    private IndexedRecordConverter<Object, ? extends IndexedRecord> decoderFactory;
-    private EncoderFactory encoderFactory;
 
     public CouchbaseWriter(CouchbaseWriteOperation operation) {
         this.operation = operation;
@@ -64,11 +59,15 @@ public class CouchbaseWriter implements Writer<Result> {
         if (!opened) {
             throw new IOException("Writer is not opened");
         }
+
         result.totalCount++;
         if (datum == null) {
             return;
         }
-        IndexedRecord record = getDecoderFactory(datum).convertToAvro(datum);
+
+        // Data object is always IndexedRecord
+        IndexedRecord record = (IndexedRecord) datum;
+
         Schema schema = record.getSchema();
         Schema.Field idField = schema.getField(idFieldName);
         if (idField == null) {
@@ -76,6 +75,7 @@ public class CouchbaseWriter implements Writer<Result> {
         }
         int idPos = idField.pos();
         String id = record.get(idPos).toString();
+
         connection.upsert(id, datum.toString());
     }
 
@@ -88,14 +88,5 @@ public class CouchbaseWriter implements Writer<Result> {
     @Override
     public WriteOperation<Result> getWriteOperation() {
         return operation;
-    }
-
-    private IndexedRecordConverter<Object, ? extends IndexedRecord> getDecoderFactory(Object datum) {
-        if (decoderFactory == null) {
-            //noinspection unchecked
-            decoderFactory = (IndexedRecordConverter<Object, ? extends IndexedRecord>) new AvroRegistry()
-                    .createIndexedRecordConverter(datum.getClass());
-        }
-        return decoderFactory;
     }
 }

@@ -33,7 +33,6 @@ public class CouchbaseConnection {
         this.cluster = CouchbaseCluster.create(bootstrapNodes);
         this.bucketName = bucket;
         this.password = password;
-
     }
 
     public void connect() {

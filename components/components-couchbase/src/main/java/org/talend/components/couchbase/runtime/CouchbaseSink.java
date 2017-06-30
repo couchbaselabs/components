@@ -34,9 +34,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class CouchbaseSink implements Sink {
+
     private static final Logger LOG = LoggerFactory.getLogger(CouchbaseWriter.class);
 
     private static final long serialVersionUID = 1313511127549129199L;
+
     private String bootstrapNodes;
     private String bucket;
     private String password;

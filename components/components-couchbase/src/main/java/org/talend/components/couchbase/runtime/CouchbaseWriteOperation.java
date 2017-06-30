@@ -11,6 +11,7 @@ import java.util.Map;
 public class CouchbaseWriteOperation implements WriteOperation<Result> {
 
     private static final long serialVersionUID = 3100763962852785197L;
+
     private final CouchbaseSink sink;
 
     public CouchbaseWriteOperation(CouchbaseSink sink) {

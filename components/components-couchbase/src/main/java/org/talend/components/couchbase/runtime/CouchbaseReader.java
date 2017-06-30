@@ -22,6 +22,7 @@ import org.joda.time.Instant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.talend.components.api.component.runtime.Reader;
+import org.talend.components.api.component.runtime.Result;
 import org.talend.components.api.component.runtime.Source;
 import org.talend.components.api.container.RuntimeContainer;
 import org.talend.components.api.exception.ComponentException;
@@ -107,6 +108,7 @@ public class CouchbaseReader implements Reader<IndexedRecord> {
 
     @Override
     public Map<String, Object> getReturnValues() {
-        return null;
+        Result result = new Result();
+        return result.toMap();
     }
 }
