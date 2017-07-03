@@ -19,7 +19,7 @@
         <couchbase-client.version>2.4.2</couchbase-client.version>
         <couchbase-dcp.version>0.9.0</couchbase-dcp.version>
         <rx.version>1.2.3</rx.version>
-        <couchbase.docker.image.name>couchbase/server:4.6.1</couchbase.docker.image.name>
+        <couchbase.docker.image.name>igis/couchbase-server-itest:4.6.2</couchbase.docker.image.name>
     </properties>
 
     <dependencies>
@@ -195,14 +195,8 @@
                         <couchbase.bucketName>${couchbase.bucketName}</couchbase.bucketName>
                         <couchbase.password>${couchbase.password}</couchbase.password>
                     </systemPropertyVariables>
-                    <!-- Temporarily disabled, additional efforts required to prepare and run
-                         couchbase server docker container -->
-                    <excludedGroups>org.talend.components.couchbase.RequiresCouchbaseServer</excludedGroups>
                 </configuration>
             </plugin>
-            <!-- Temporarily disabled, additional efforts required to prepare and run
-                 couchbase server docker container -->
-            <!--
             <plugin>
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
@@ -247,7 +241,6 @@
                     </execution>
                 </executions>
             </plugin>
-            -->
         </plugins>
     </build>
 </project>
