@@ -17,7 +17,6 @@
 package org.talend.components.couchbase.runtime;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.avro.Schema;
@@ -27,10 +26,8 @@ import org.talend.components.api.component.runtime.Source;
 import org.talend.components.api.container.RuntimeContainer;
 import org.talend.components.api.properties.ComponentProperties;
 import org.talend.components.couchbase.ComponentConstants;
-import org.talend.components.couchbase.CouchbaseSourceOrSink;
 import org.talend.components.couchbase.input.CouchbaseInputProperties;
 import org.talend.daikon.NamedThing;
-import org.talend.daikon.SimpleNamedThing;
 import org.talend.daikon.properties.ValidationResult;
 
 public class CouchbaseSource extends CouchbaseSourceOrSink implements Source {
