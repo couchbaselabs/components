@@ -11,7 +11,7 @@
 //
 // ============================================================================
 
-package org.talend.components.couchbase;
+package org.talend.components.couchbase.runtime;
 
 import org.talend.components.api.component.runtime.SourceOrSink;
 import org.talend.daikon.properties.ValidationResult;

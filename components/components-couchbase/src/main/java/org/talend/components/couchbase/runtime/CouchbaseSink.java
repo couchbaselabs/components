@@ -24,7 +24,6 @@ import org.talend.components.api.component.runtime.Sink;
 import org.talend.components.api.component.runtime.WriteOperation;
 import org.talend.components.api.container.RuntimeContainer;
 import org.talend.components.api.properties.ComponentProperties;
-import org.talend.components.couchbase.CouchbaseSourceOrSink;
 import org.talend.components.couchbase.output.CouchbaseOutputProperties;
 import org.talend.daikon.NamedThing;
 import org.talend.daikon.properties.ValidationResult;
