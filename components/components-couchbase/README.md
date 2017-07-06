@@ -1,24 +1,3 @@
-# Talend Components for Couchbase
-
-This repository contains components for working with Couchbase server from Talend Studio.
-
-Branch `rel-0.16` is compatible with Talend Open Studio 6.3.1 (API version 0.16.0).
-
-## Prerequisites
-
-Download Talend Open Studio 6.3.1: https://www.talend.com/download/talend-open-studio/
-
-## Build
-
-Just checkout repository and run maven packaging task:
-
-    $ git clone git://github.com/couchbaselabs/talend-components.git
-    $ cd couchbase-components
-    $ git checkout rel-0.16
-    $ mvn clean package
-
-This give you a bundle file in `target/components-couchbase-0.1.0-SNAPSHOT-bundle.jar`
-
 ## Registering components in Talend Studio
 
 Detailed steps of registering components are described on the Talend Wiki:

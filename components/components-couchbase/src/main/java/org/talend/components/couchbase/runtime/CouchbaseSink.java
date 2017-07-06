@@ -16,48 +16,25 @@
 
 package org.talend.components.couchbase.runtime;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.apache.avro.Schema;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.talend.components.api.component.runtime.Sink;
 import org.talend.components.api.component.runtime.WriteOperation;
 import org.talend.components.api.container.RuntimeContainer;
 import org.talend.components.api.properties.ComponentProperties;
+import org.talend.components.couchbase.CouchbaseSourceOrSink;
 import org.talend.components.couchbase.output.CouchbaseOutputProperties;
 import org.talend.daikon.NamedThing;
-import org.talend.daikon.SimpleNamedThing;
 import org.talend.daikon.properties.ValidationResult;
-import org.talend.daikon.properties.ValidationResultMutable;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-
-public class CouchbaseSink implements Sink {
-
-    private static final Logger LOG = LoggerFactory.getLogger(CouchbaseWriter.class);
+public class CouchbaseSink extends CouchbaseSourceOrSink implements Sink {
 
     private static final long serialVersionUID = 1313511127549129199L;
 
-    private String bootstrapNodes;
-    private String bucket;
-    private String password;
     private CouchbaseConnection connection;
     private String idFieldName;
-
-    private static ValidationResultMutable fillValidationResult(ValidationResultMutable vr, Exception ex) {
-        if (vr == null) {
-            return null;
-        }
-
-        if (ex.getMessage() == null || ex.getMessage().isEmpty()) {
-            vr.setMessage(ex.toString());
-        } else {
-            vr.setMessage(ex.getMessage());
-        }
-        vr.setStatus(ValidationResult.Result.ERROR);
-        return vr;
-    }
 
     @Override
     public ValidationResult initialize(RuntimeContainer container, ComponentProperties properties) {
@@ -76,7 +53,7 @@ public class CouchbaseSink implements Sink {
 
     @Override
     public List<NamedThing> getSchemaNames(RuntimeContainer container) throws IOException {
-        return Collections.singletonList((NamedThing) new SimpleNamedThing("MAIN", "MAIN"));
+        return null;
     }
 
     @Override
@@ -86,14 +63,12 @@ public class CouchbaseSink implements Sink {
 
     @Override
     public ValidationResult validate(RuntimeContainer container) {
-        ValidationResultMutable vr = new ValidationResultMutable();
         try {
             connection = connect();
-            vr.setStatus(ValidationResult.Result.OK);
+            return ValidationResult.OK;
         } catch (Exception ex) {
-            fillValidationResult(vr, ex);
+            return createValidationResult(ex);
         }
-        return vr;
     }
 
     public String getIdFieldName() {

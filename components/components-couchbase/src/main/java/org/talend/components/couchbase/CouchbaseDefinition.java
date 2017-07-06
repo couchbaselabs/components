@@ -46,6 +46,6 @@ public abstract class CouchbaseDefinition extends AbstractComponentDefinition {
 
     @Override
     public List<String> getSupportedProducts() {
-        return Arrays.asList(SupportedProduct.ALL);
+        return Arrays.asList(SupportedProduct.DI);
     }
 }

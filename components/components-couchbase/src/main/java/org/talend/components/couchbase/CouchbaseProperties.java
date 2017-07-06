@@ -16,8 +16,12 @@
 
 package org.talend.components.couchbase;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static org.talend.daikon.properties.presentation.Widget.widget;
+import static org.talend.daikon.properties.property.PropertyFactory.newProperty;
+import static org.talend.daikon.properties.property.PropertyFactory.newString;
+
+import java.util.EnumSet;
+
 import org.talend.components.api.component.Connector;
 import org.talend.components.api.component.PropertyPathConnector;
 import org.talend.components.common.FixedConnectorsComponentProperties;
@@ -26,15 +30,7 @@ import org.talend.daikon.properties.presentation.Form;
 import org.talend.daikon.properties.presentation.Widget;
 import org.talend.daikon.properties.property.Property;
 
-import java.util.EnumSet;
-
-import static org.talend.daikon.properties.presentation.Widget.widget;
-import static org.talend.daikon.properties.property.PropertyFactory.newProperty;
-import static org.talend.daikon.properties.property.PropertyFactory.newString;
-
 public abstract class CouchbaseProperties extends FixedConnectorsComponentProperties {
-
-    private static Logger LOG = LoggerFactory.getLogger(CouchbaseProperties.class);
 
     public final Property<String> bucket = newString("bucket");
 

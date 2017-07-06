@@ -27,7 +27,8 @@ import org.talend.daikon.definition.service.DefinitionRegistryService;
 
 public class CouchbaseComponentsTestBase extends AbstractComponentTest2 {
 
-    protected @Inject DefinitionRegistryService definitionRegistryService;
+    @Inject
+    protected DefinitionRegistryService definitionRegistryService;
 
     @Override
     public DefinitionRegistryService getDefinitionRegistry() {
