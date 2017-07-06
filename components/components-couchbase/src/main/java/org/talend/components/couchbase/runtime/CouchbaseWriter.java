@@ -73,10 +73,14 @@ public class CouchbaseWriter implements Writer<Result> {
         if (idField == null) {
             throw new IOException("Schema does not contain ID field: " + idFieldName);
         }
-        int idPos = idField.pos();
-        String id = record.get(idPos).toString();
 
-        connection.upsert(id, datum.toString());
+        int idPos = idField.pos();
+        Object id = record.get(idPos);
+        if (id == null) {
+            throw new IOException("ID field is null: " + idField.name());
+        }
+
+        connection.upsert(id.toString(), datum.toString());
     }
 
     @Override

@@ -23,16 +23,12 @@ import java.util.Collections;
 import java.util.Set;
 
 import org.apache.avro.Schema;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.talend.components.api.component.PropertyPathConnector;
 import org.talend.components.couchbase.CouchbaseProperties;
 import org.talend.components.couchbase.EventSchemaField;
 import org.talend.daikon.avro.AvroUtils;
 
 public class CouchbaseInputProperties extends CouchbaseProperties {
-
-    private static Logger LOG = LoggerFactory.getLogger(CouchbaseInputProperties.class);
 
     public CouchbaseInputProperties(String name) {
         super(name);

@@ -16,6 +16,7 @@
 
 package org.talend.components.couchbase;
 
-public interface ComponentConstants {
-    String CONNECTION_KEY = "Connection";
+public abstract class ComponentConstants {
+
+    public static final String CONNECTION_KEY = "Connection";
 }

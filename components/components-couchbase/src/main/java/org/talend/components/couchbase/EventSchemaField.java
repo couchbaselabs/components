@@ -16,8 +16,8 @@
 
 package org.talend.components.couchbase;
 
-public enum EventSchemaField {
-    ;
+public abstract class EventSchemaField {
+
     public final static int EVENT_IDX = 0;
     public final static int PARTITION_IDX = 1;
     public final static int KEY_IDX = 2;

@@ -16,44 +16,28 @@
 
 package org.talend.components.couchbase.runtime;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.avro.Schema;
+import org.apache.avro.generic.IndexedRecord;
 import org.talend.components.api.component.runtime.Reader;
 import org.talend.components.api.component.runtime.Source;
 import org.talend.components.api.container.RuntimeContainer;
 import org.talend.components.api.properties.ComponentProperties;
 import org.talend.components.couchbase.ComponentConstants;
+import org.talend.components.couchbase.CouchbaseSourceOrSink;
 import org.talend.components.couchbase.input.CouchbaseInputProperties;
 import org.talend.daikon.NamedThing;
 import org.talend.daikon.SimpleNamedThing;
 import org.talend.daikon.properties.ValidationResult;
-import org.talend.daikon.properties.ValidationResultMutable;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-
-public class CouchbaseSource implements Source {
+public class CouchbaseSource extends CouchbaseSourceOrSink implements Source {
     private static final long serialVersionUID = 3602741914997413619L;
     
     private Schema schema;
-    private String bootstrapNodes;
-    private String bucket;
-    private String password;
     private CouchbaseStreamingConnection connection;
-
-    private static ValidationResultMutable fillValidationResult(ValidationResultMutable vr, Exception ex) {
-        if (vr == null) {
-            return null;
-        }
-
-        if (ex.getMessage() == null || ex.getMessage().isEmpty()) {
-            vr.setMessage(ex.toString());
-        } else {
-            vr.setMessage(ex.getMessage());
-        }
-        vr.setStatus(ValidationResult.Result.ERROR);
-        return vr;
-    }
 
     @Override
     public ValidationResult initialize(RuntimeContainer container, ComponentProperties properties) {
@@ -66,7 +50,7 @@ public class CouchbaseSource implements Source {
     }
 
     @Override
-    public Reader createReader(RuntimeContainer container) {
+    public Reader<IndexedRecord> createReader(RuntimeContainer container) {
         return new CouchbaseReader(container, this);
     }
 
@@ -76,24 +60,22 @@ public class CouchbaseSource implements Source {
 
     @Override
     public List<NamedThing> getSchemaNames(RuntimeContainer container) throws IOException {
-        return Collections.singletonList((NamedThing) new SimpleNamedThing("MAIN", "MAIN"));
+        return null;
     }
 
     @Override
     public Schema getEndpointSchema(RuntimeContainer container, String schemaName) throws IOException {
-        return CouchbaseInputProperties.getEventSchema();
+        return null;
     }
 
     @Override
     public ValidationResult validate(RuntimeContainer runtime) {
-        ValidationResultMutable vr = new ValidationResultMutable();
         try {
             connection = connect(runtime);
-            vr.setStatus(ValidationResult.Result.OK);
+            return ValidationResult.OK;
         } catch (Exception ex) {
-            fillValidationResult(vr, ex);
+            return createValidationResult(ex);
         }
-        return vr;
     }
 
     public CouchbaseStreamingConnection getConnection(RuntimeContainer runtime) throws ClassNotFoundException {

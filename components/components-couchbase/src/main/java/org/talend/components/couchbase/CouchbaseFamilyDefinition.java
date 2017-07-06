@@ -16,12 +16,13 @@
 
 package org.talend.components.couchbase;
 
-import aQute.bnd.annotation.component.Component;
 import org.talend.components.api.AbstractComponentFamilyDefinition;
 import org.talend.components.api.ComponentInstaller;
 import org.talend.components.api.Constants;
 import org.talend.components.couchbase.input.CouchbaseInputDefinition;
 import org.talend.components.couchbase.output.CouchbaseOutputDefinition;
+
+import aQute.bnd.annotation.component.Component;
 
 @Component(name = Constants.COMPONENT_INSTALLER_PREFIX + CouchbaseFamilyDefinition.NAME, provide = ComponentInstaller.class)
 public class CouchbaseFamilyDefinition extends AbstractComponentFamilyDefinition implements ComponentInstaller {

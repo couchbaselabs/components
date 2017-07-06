@@ -19,8 +19,6 @@ package org.talend.components.couchbase.output;
 import java.util.EnumSet;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.talend.components.api.component.ConnectorTopology;
 import org.talend.components.api.component.runtime.ExecutionEngine;
 import org.talend.components.api.properties.ComponentProperties;
@@ -55,11 +53,6 @@ public class CouchbaseOutputDefinition extends CouchbaseDefinition {
         } else {
             return null;
         }
-    }
-
-    @Override
-    public boolean isStartable() {
-        return false;
     }
 
     @Override

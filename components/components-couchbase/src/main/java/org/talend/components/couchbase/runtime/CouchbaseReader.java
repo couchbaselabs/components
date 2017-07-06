@@ -16,7 +16,12 @@
 
 package org.talend.components.couchbase.runtime;
 
-import com.couchbase.client.deps.io.netty.buffer.ByteBuf;
+import java.io.IOException;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.avro.generic.IndexedRecord;
 import org.joda.time.Instant;
 import org.slf4j.Logger;
@@ -27,35 +32,32 @@ import org.talend.components.api.component.runtime.Source;
 import org.talend.components.api.container.RuntimeContainer;
 import org.talend.components.api.exception.ComponentException;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
+import com.couchbase.client.deps.io.netty.buffer.ByteBuf;
 
 public class CouchbaseReader implements Reader<IndexedRecord> {
     private transient static final Logger LOG = LoggerFactory.getLogger(CouchbaseStreamingConnection.class);
 
     private final RuntimeContainer container;
     private final CouchbaseSource source;
-    private final CouchbaseEventGenericRecordConverter converter;
+
+    private CouchbaseEventGenericRecordConverter converter;
     private CouchbaseStreamingConnection connection;
     private LinkedBlockingQueue<ByteBuf> resultsQueue;
     private IndexedRecord currentRecord;
 
     public CouchbaseReader(RuntimeContainer container, CouchbaseSource source) {
         super();
+
         this.container = container;
         this.source = source;
-        this.converter = new CouchbaseEventGenericRecordConverter();
-        converter.setSchema(source.getSchema());
     }
 
     @Override
     public boolean start() throws IOException {
         try {
+            converter = new CouchbaseEventGenericRecordConverter(source.getSchema());
             connection = source.getConnection(container);
-            resultsQueue = new LinkedBlockingQueue<ByteBuf>();
+            resultsQueue = new LinkedBlockingQueue<>();
             connection.startStreaming(resultsQueue);
         } catch (ClassNotFoundException e) {
             throw new ComponentException(e);

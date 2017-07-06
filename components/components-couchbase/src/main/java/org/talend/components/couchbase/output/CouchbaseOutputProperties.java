@@ -16,15 +16,15 @@
 
 package org.talend.components.couchbase.output;
 
-import org.talend.components.api.component.PropertyPathConnector;
-import org.talend.components.couchbase.CouchbaseProperties;
-import org.talend.daikon.properties.presentation.Form;
-import org.talend.daikon.properties.property.Property;
+import static org.talend.daikon.properties.property.PropertyFactory.newString;
 
 import java.util.Collections;
 import java.util.Set;
 
-import static org.talend.daikon.properties.property.PropertyFactory.newString;
+import org.talend.components.api.component.PropertyPathConnector;
+import org.talend.components.couchbase.CouchbaseProperties;
+import org.talend.daikon.properties.presentation.Form;
+import org.talend.daikon.properties.property.Property;
 
 public class CouchbaseOutputProperties extends CouchbaseProperties {
 
