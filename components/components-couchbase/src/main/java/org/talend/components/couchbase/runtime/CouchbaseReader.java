@@ -44,6 +44,7 @@ public class CouchbaseReader implements Reader<IndexedRecord> {
     private CouchbaseStreamingConnection connection;
     private LinkedBlockingQueue<ByteBuf> resultsQueue;
     private IndexedRecord currentRecord;
+    private int recordCount;
 
     public CouchbaseReader(RuntimeContainer container, CouchbaseSource source) {
         super();
@@ -79,6 +80,7 @@ public class CouchbaseReader implements Reader<IndexedRecord> {
                 currentRecord = converter.convertToAvro(event);
                 connection.acknowledge(event);
                 event.release();
+                recordCount++;
                 return true;
             }
             if (!connection.isStreaming() && resultsQueue.isEmpty()) {
@@ -111,6 +113,7 @@ public class CouchbaseReader implements Reader<IndexedRecord> {
     @Override
     public Map<String, Object> getReturnValues() {
         Result result = new Result();
+        result.totalCount = recordCount;
         return result.toMap();
     }
 }

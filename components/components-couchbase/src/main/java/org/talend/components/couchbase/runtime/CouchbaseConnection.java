@@ -18,11 +18,9 @@ package org.talend.components.couchbase.runtime;
 import com.couchbase.client.java.Bucket;
 import com.couchbase.client.java.CouchbaseCluster;
 import com.couchbase.client.java.document.RawJsonDocument;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CouchbaseConnection {
-    private transient static final Logger LOG = LoggerFactory.getLogger(CouchbaseConnection.class);
+
     private final CouchbaseCluster cluster;
     private final String bucketName;
     private final String password;
