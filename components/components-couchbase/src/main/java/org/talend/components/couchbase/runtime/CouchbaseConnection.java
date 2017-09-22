@@ -17,24 +17,32 @@ package org.talend.components.couchbase.runtime;
 
 import com.couchbase.client.java.Bucket;
 import com.couchbase.client.java.CouchbaseCluster;
+import com.couchbase.client.java.auth.ClassicAuthenticator;
 import com.couchbase.client.java.document.RawJsonDocument;
 
 public class CouchbaseConnection {
 
     private final CouchbaseCluster cluster;
     private final String bucketName;
+    private final String userName;
     private final String password;
     private Bucket bucket;
     private int refCounter = 0;
 
-    public CouchbaseConnection(String bootstrapNodes, String bucket, String password) {
+    public CouchbaseConnection(String bootstrapNodes, String bucket, String userName, String password) {
         this.cluster = CouchbaseCluster.create(bootstrapNodes);
         this.bucketName = bucket;
+        this.userName = userName;
         this.password = password;
     }
 
     public void connect() {
-        bucket = cluster.openBucket(bucketName, password);
+        if (userName != null && !userName.isEmpty()) {
+            cluster.authenticate(userName, password);
+            bucket = cluster.openBucket(bucketName);
+        } else {
+            bucket = cluster.openBucket(bucketName, password);
+        }
     }
 
     public void upsert(String id, String content) {

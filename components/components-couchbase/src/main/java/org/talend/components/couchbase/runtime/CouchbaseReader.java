@@ -42,7 +42,7 @@ public class CouchbaseReader implements Reader<IndexedRecord> {
 
     private CouchbaseEventGenericRecordConverter converter;
     private CouchbaseStreamingConnection connection;
-    private LinkedBlockingQueue<ByteBuf> resultsQueue;
+    private LinkedBlockingQueue<Event> resultsQueue;
     private IndexedRecord currentRecord;
     private int recordCount;
 
@@ -69,7 +69,7 @@ public class CouchbaseReader implements Reader<IndexedRecord> {
     @Override
     public boolean advance() throws IOException {
         while (true) {
-            ByteBuf event;
+            Event event;
             try {
                 event = resultsQueue.poll(1, TimeUnit.SECONDS);
             } catch (InterruptedException e) {
@@ -77,9 +77,8 @@ public class CouchbaseReader implements Reader<IndexedRecord> {
                 return false;
             }
             if (event != null) {
-                currentRecord = converter.convertToAvro(event);
-                connection.acknowledge(event);
-                event.release();
+                currentRecord = converter.convertToAvro(event.getMessage());
+                event.ack();
                 recordCount++;
                 return true;
             }

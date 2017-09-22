@@ -23,6 +23,7 @@ public abstract class CouchbaseSourceOrSink implements SourceOrSink {
 
     protected String bootstrapNodes;
     protected String bucket;
+    protected String userName;
     protected String password;
 
     protected static ValidationResult createValidationResult(Exception ex) {

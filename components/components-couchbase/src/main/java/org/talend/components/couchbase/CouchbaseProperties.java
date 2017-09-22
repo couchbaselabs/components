@@ -34,6 +34,8 @@ public abstract class CouchbaseProperties extends FixedConnectorsComponentProper
 
     public final Property<String> bucket = newString("bucket");
 
+    public final Property<String> userName = newString("userName");
+
     public final Property<String> password = newProperty("password").setRequired()
             .setFlags(EnumSet.of(Property.Flags.ENCRYPT, Property.Flags.SUPPRESS_LOGGING));
 
@@ -53,6 +55,7 @@ public abstract class CouchbaseProperties extends FixedConnectorsComponentProper
 
         bootstrapNodes.setValue("localhost");
         bucket.setValue("default");
+        userName.setValue("");
         password.setValue("");
     }
 
@@ -62,6 +65,7 @@ public abstract class CouchbaseProperties extends FixedConnectorsComponentProper
 
         Form mainForm = Form.create(this, Form.MAIN);
         mainForm.addRow(bucket);
+        mainForm.addRow(userName);
         mainForm.addRow(widget(password).setWidgetType(Widget.HIDDEN_TEXT_WIDGET_TYPE));
         mainForm.addRow(bootstrapNodes);
         mainForm.addRow(schema.getForm(Form.REFERENCE));

@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.couchbase.client.dcp.transport.netty.ChannelFlowController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +40,7 @@ public class CouchbaseStreamingConnection {
     private final Client client;
     private volatile boolean connected;
     private volatile boolean streaming;
-    private volatile BlockingQueue<ByteBuf> resultsQueue;
+    private volatile BlockingQueue<Event> resultsQueue;
 
     public CouchbaseStreamingConnection(String bootstrapNodes, String bucket, String password) {
         connected = false;
@@ -54,22 +55,22 @@ public class CouchbaseStreamingConnection {
                 .build();
         client.controlEventHandler(new ControlEventHandler() {
             @Override
-            public void onEvent(ByteBuf event) {
-                client.acknowledgeBuffer(event);
+            public void onEvent(ChannelFlowController flowController, ByteBuf event) {
+                flowController.ack(event);
                 event.release();
             }
         });
         client.dataEventHandler(new DataEventHandler() {
             @Override
-            public void onEvent(ByteBuf event) {
+            public void onEvent(ChannelFlowController flowController, ByteBuf event) {
                 if (resultsQueue != null) {
                     try {
-                        resultsQueue.put(event);
+                        resultsQueue.put(new Event(event, flowController));
                     } catch (InterruptedException e) {
                         LOG.error("Unable to put DCP request into the results queue");
                     }
                 } else {
-                    client.acknowledgeBuffer(event);
+                    flowController.ack(event);
                     event.release();
                 }
             }
@@ -96,7 +97,7 @@ public class CouchbaseStreamingConnection {
         return streaming;
     }
 
-    public void startStreaming(final BlockingQueue<ByteBuf> resultsQueue) {
+    public void startStreaming(final BlockingQueue<Event> resultsQueue) {
         if (streaming) {
             LOG.warn("This connection already in streaming mode, create another one.");
             return;
@@ -107,7 +108,6 @@ public class CouchbaseStreamingConnection {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                int i = 0;
                 try {
                     client.startStreaming(partitionsToStream()).await();
                     while (true) {
@@ -131,22 +131,16 @@ public class CouchbaseStreamingConnection {
     public void stopStreaming() {
         if (resultsQueue != null) {
             client.stopStreaming(partitionsToStream()).await();
-            BlockingQueue<ByteBuf> queue = resultsQueue;
+            BlockingQueue<Event> queue = resultsQueue;
             resultsQueue = null;
-            List<ByteBuf> drained = new ArrayList<ByteBuf>();
+            List<Event> drained = new ArrayList<Event>();
             queue.drainTo(drained);
-            for (ByteBuf byteBuf : drained) {
-                byteBuf.release();
-                client.acknowledgeBuffer(byteBuf);
+            for (Event event : drained) {
+                event.ack();
             }
             client.disconnect();
         }
     }
-
-    public void acknowledge(ByteBuf event) {
-        client.acknowledgeBuffer(event);
-    }
-
     private Short[] partitionsToStream() {
         Short[] partitions = new Short[1024];
         for (short i = 0; i < 1024; i++) {
