@@ -37,11 +37,12 @@ public class CouchbaseSink extends CouchbaseSourceOrSink implements Sink {
 
     @Override
     public ValidationResult initialize(RuntimeContainer container, ComponentProperties properties) {
-        CouchbaseOutputProperties inputProperties = (CouchbaseOutputProperties) properties;
-        this.bootstrapNodes = inputProperties.bootstrapNodes.getStringValue();
-        this.bucket = inputProperties.bucket.getStringValue();
-        this.password = inputProperties.password.getStringValue();
-        this.idFieldName = inputProperties.idFieldName.getStringValue();
+        CouchbaseOutputProperties outputProperties = (CouchbaseOutputProperties) properties;
+        this.bootstrapNodes = outputProperties.bootstrapNodes.getStringValue();
+        this.bucket = outputProperties.bucket.getStringValue();
+        this.userName = outputProperties.userName.getStringValue();
+        this.password = outputProperties.password.getStringValue();
+        this.idFieldName = outputProperties.idFieldName.getStringValue();
         return ValidationResult.OK;
     }
 
@@ -82,7 +83,7 @@ public class CouchbaseSink extends CouchbaseSourceOrSink implements Sink {
     }
 
     private CouchbaseConnection connect() {
-        CouchbaseConnection connection = new CouchbaseConnection(bootstrapNodes, bucket, password);
+        CouchbaseConnection connection = new CouchbaseConnection(bootstrapNodes, bucket, userName, password);
         connection.connect();
         return connection;
     }

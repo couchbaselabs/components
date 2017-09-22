@@ -41,8 +41,12 @@ public class CouchbaseSource extends CouchbaseSourceOrSink implements Source {
         CouchbaseInputProperties inputProperties = (CouchbaseInputProperties) properties;
         this.bootstrapNodes = inputProperties.bootstrapNodes.getStringValue();
         this.bucket = inputProperties.bucket.getStringValue();
+        this.userName = inputProperties.userName.getStringValue();
         this.password = inputProperties.password.getStringValue();
         this.schema = inputProperties.schema.schema.getValue();
+        if (userName != null && userName.isEmpty()) {
+            userName = null;
+        }
         return ValidationResult.OK;
     }
 
@@ -83,7 +87,7 @@ public class CouchbaseSource extends CouchbaseSourceOrSink implements Source {
     }
 
     private CouchbaseStreamingConnection connect(RuntimeContainer runtime) {
-        CouchbaseStreamingConnection connection = new CouchbaseStreamingConnection(bootstrapNodes, bucket, password);
+        CouchbaseStreamingConnection connection = new CouchbaseStreamingConnection(bootstrapNodes, bucket, userName, password);
         connection.connect();
         if (runtime != null) {
             runtime.setComponentData(runtime.getCurrentComponentId(), ComponentConstants.CONNECTION_KEY, connection);

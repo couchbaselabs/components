@@ -28,11 +28,13 @@ public class CouchbaseInputPropertiesTest {
         assertThat(main, notNullValue());
 
         Collection<Widget> mainWidgets = main.getWidgets();
-        assertThat(mainWidgets, hasSize(4));
+        assertThat(mainWidgets, hasSize(5));
 
         // CouchbaseProperties widgets
         Widget bucketWidget = main.getWidget("bucket");
         assertThat(bucketWidget, notNullValue());
+        Widget userNameWidget = main.getWidget("userName");
+        assertThat(userNameWidget, notNullValue());
         Widget passwordWidget = main.getWidget("password");
         assertThat(passwordWidget, notNullValue());
         Widget bootstrapNodesWidget = main.getWidget("bootstrapNodes");
